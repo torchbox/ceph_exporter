@@ -476,7 +476,7 @@ type cephHealthStats struct {
 			Severity string `json:"severity"`
 			Summary  string `json:"summary"`
 		} `json:"summary"`
-		OverallStatus string `json:"overall_status"`
+		Status string `json:"status"`
 	} `json:"health"`
 	OSDMap struct {
 		OSDMap struct {
@@ -492,6 +492,10 @@ type cephHealthStats struct {
 			Count     json.Number `json:"count"`
 		} `json:"pgs_by_state"`
 		NumPGs json.Number `json:"num_pgs"`
+		ReadByteSec json.Number `json:"read_bytes_sec"`
+		WriteByteSec json.Number `json:"write_bytes_sec"`
+		ReadOpsSec json.Number `json:"read_op_per_sec"`
+		WriteOpsSec json.Number `json:"write_op_per_sec"`
 	} `json:"pgmap"`
 }
 
@@ -513,7 +517,7 @@ func (c *ClusterHealthCollector) collect() error {
 		}
 	}
 
-	switch stats.Health.OverallStatus {
+	switch stats.Health.Status {
 	case CephHealthOK:
 		c.HealthStatus.Set(0)
 	case CephHealthWarn:
